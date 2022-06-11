@@ -1,0 +1,8 @@
+wget http://media.sundog-soft.com/es7/shakes-mapping.json
+wget http://media.sundog-soft.com/es7/shakespeare_7.0.json
+
+curl -H "Content-type: application/json" -XPUT localhost:9200/shakespeare --data-binary @shakes-mapping.json
+
+curl -XPOST -H "Content-type: application/json" localhost:9200/shakespeare/_bulk --data-binary @shakespeare_7.0.json
+
+curl -H "Content-Type: application/json" 'localhost:9200/shakespeare/_search?pretty' -XGET -d '\n{\n"query": {\n "match_phrase": {\n "text_entry": "to be or not to be"\n }\n}}'

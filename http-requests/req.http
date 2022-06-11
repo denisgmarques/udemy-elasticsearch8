@@ -1,0 +1,73 @@
+# List indexes
+GET http://localhost:9200/_cat/indices?v=true
+Content-Type: application/json
+
+###
+
+# Creating mapping
+PUT http://localhost:9200/movies
+Content-Type: application/json
+
+{
+    "mappings" : {
+        "properties" : {
+            "year" : {
+                "type" : "date"
+            }
+        }
+    }
+}
+
+###
+
+# List mapping
+GET http://localhost:9200/movies/_mapping
+
+###
+
+# ..
+PUT http://localhost:9200/movies/_doc/109487?pretty
+Content-Type: application/json
+
+{
+    "genre" : [ "IMAX", "Sci-Fi" ],
+    "title" : "Interstellar",
+    "year" : 2014 
+}
+
+###
+
+# List Movies
+GET http://localhost:9200/movies/_search?pretty
+
+###
+
+# Bulk import
+PUT http://localhost:9200/_bulk
+Content-Type: application/json
+
+< ../movies.json
+
+###
+
+# Update an immutable document
+POST http://localhost:9200/movies/_update/109487?pretty
+Content-Type: application/json
+
+{
+    "doc" : {
+        "title" : "Interstellar"
+    }
+}
+
+###
+
+# List Interestellar (Version 2)
+GET http://localhost:9200/movies/_doc/109487?pretty
+Content-Type: application/json
+
+###
+
+#
+ http://localhost:9200/movies/_doc/109487?pretty
+Content-Type: application/json
